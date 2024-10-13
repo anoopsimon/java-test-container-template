@@ -34,7 +34,7 @@ jobs:
         run: chmod +x gradlew  # Grant execute permissions to the gradlew script
 
       - name: Run Checkstyle
-        run: ./gradlew checkstyle
+        run: ./gradlew checkstyleMain
 
       - name: Run Unit Tests
         run: ./gradlew test
