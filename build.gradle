@@ -10,6 +10,7 @@ repositories {
 dependencies {
     // Use JUnit Jupiter for testing.
    // testImplementation libs.junit.jupiter
+    checkstyle "com.puppycrawl.tools:checkstyle:10.12.4"
     implementation 'org.testcontainers:testcontainers:1.19.0'
     implementation 'org.testcontainers:junit-jupiter:1.19.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
@@ -41,8 +42,10 @@ tasks.named('test') {
 }
 
 checkstyle {
-    toolVersion = '10.12.1'  // Use the latest stable version
-    configDirectory = file("${rootProject.projectDir}/config/checkstyle") // Specify location for custom checkstyle config
+    toolVersion = '10.12.4'  // Use the latest stable version
+    configFile = file("$rootDir/config/checkstyle/checkstyle.xml")
+    ignoreFailures = false // Set to true if you don't want to fail the build on violations
+    sourceSets = [sourceSets.main]
 }
 
 tasks.withType(Checkstyle) {
