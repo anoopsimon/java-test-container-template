@@ -1,0 +1,51 @@
+name: Checkstyle and Unit Tests
+
+on:
+  push:
+    branches:
+      - master  # Change this to your main branch name
+  pull_request:
+    branches:
+      - master  # Change this to your main branch name
+
+jobs:
+  checkstyle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'  # Match this to your project's Java version
+          distribution: 'temurin'
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Run Checkstyle
+        run: ./gradlew checkstyle
+
+      - name: Run Unit Tests
+        run: ./gradlew test
+
+      - name: Upload Checkstyle Reports
+        if: always()  # Always upload reports even if there are errors
+        uses: actions/upload-artifact@v2
+        with:
+          name: checkstyle-reports
+          path: build/reports/checkstyle
+
+      - name: Upload Test Reports
+        if: always()  # Always upload reports even if there are errors
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-reports
+          path: build/test-results
