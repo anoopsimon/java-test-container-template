@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    environment:
+      JENKINS_ADMIN_ID: admin         # Replace with your desired username
+      JENKINS_ADMIN_PASSWORD: password # Replace with your desired password
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - ./init.groovy.d:/var/jenkins_home/init.groovy.d
+    restart: unless-stopped
+
+volumes:
+  jenkins_home:
