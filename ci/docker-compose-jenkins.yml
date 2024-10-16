@@ -13,6 +13,7 @@ services:
     volumes:
       - jenkins_home:/var/jenkins_home
       - ./init.groovy.d:/var/jenkins_home/init.groovy.d
+      - ./jobs.groovy.d:/var/jenkins_home/jobs.groovy.d
     restart: unless-stopped
 
 volumes:
